@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>JamesTech Projects</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     html, body {
       margin: 0;
@@ -11,9 +11,11 @@
       font-family: 'Courier New', monospace;
       background: #000;
       color: #00ffcc;
+      height: 100%;
       overflow-x: hidden;
     }
 
+    /* ✅ Ensure video is fully visible and behind everything */
     video.bg-video {
       position: fixed;
       top: 0;
@@ -21,7 +23,8 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-      z-index: -2;
+      z-index: -100;
+      pointer-events: none;
     }
 
     .overlay {
@@ -30,11 +33,13 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: -1;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -50;
     }
 
     .container {
+      position: relative;
+      z-index: 10;
       text-align: center;
       padding: 50px 20px;
     }
@@ -43,11 +48,7 @@
       font-size: 6rem;
       margin: 0 auto;
       color: #00ffcc;
-      text-shadow:
-        0 0 10px #00ffff,
-        0 0 20px #00ffcc,
-        0 0 30px #00ccff,
-        0 0 40px #00b3ff;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffcc, 0 0 30px #00ccff, 0 0 40px #00b3ff;
       animation: glow-pulse 3s ease-in-out infinite, flicker 4s infinite alternate;
       letter-spacing: 4px;
       text-transform: uppercase;
@@ -81,13 +82,12 @@
       font-weight: bold;
       color: #fff;
       border-radius: 12px;
-      position: relative;
       background: linear-gradient(135deg, #00ffff, #0066ff);
       border: 3px solid transparent;
       background-clip: padding-box;
       cursor: pointer;
       overflow: hidden;
-      z-index: 1;
+      position: relative;
       transition: 0.4s;
     }
 
@@ -183,21 +183,20 @@
 </head>
 <body>
 
-  <!-- Background Video with Sound -->
+  <!-- ✅ Background Video FULLY VISIBLE -->
   <video class="bg-video" id="bgvid" autoplay loop playsinline>
     <source src="https://files.catbox.moe/g552n6.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
+
   <script>
+    // Try to play with sound, fallback to muted
     window.addEventListener('load', () => {
       const video = document.getElementById('bgvid');
-      const playPromise = video.play();
+      const promise = video.play();
 
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          // Plays with sound
-        }).catch(() => {
-          // Fallback: autoplay silently if blocked
+      if (promise !== undefined) {
+        promise.catch(() => {
           video.muted = true;
           video.play();
         });
