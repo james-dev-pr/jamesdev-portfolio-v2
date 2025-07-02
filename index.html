@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JamesTech Portfolio</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff99;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #loadingScreen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #000;
+      color: #00ff99;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    #enterButton {
+      padding: 16px 32px;
+      border: 2px solid #00ff99;
+      background: transparent;
+      color: #00ff99;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #content {
+      display: none;
+      padding: 20px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid #00ff99;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      border-bottom: 1px solid #00ff99;
+      padding-bottom: 5px;
+      font-size: 22px;
+    }
+
+    .skills span {
+      display: inline-block;
+      padding: 6px 12px;
+      background: #002f2f;
+      margin: 5px;
+      border: 1px solid #00ff99;
+      border-radius: 5px;
+    }
+
+    .projects button {
+      background-color: transparent;
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .projects button:hover {
+      background-color: #00ff99;
+      color: #000;
+    }
+
+    #logConsole {
+      background: #001f1f;
+      padding: 10px;
+      font-size: 14px;
+      max-height: 200px;
+      overflow-y: auto;
+      border-top: 2px solid #00ff99;
+      margin-top: 40px;
+    }
+
+    .battery {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      background: #002f2f;
+      padding: 5px 10px;
+      border: 1px solid #00ff99;
+    }
+
+    a {
+      color: #00ff99;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loadingScreen">
+  <h1>Initializing JamesTech Portfolio...</h1>
+  <button id="enterButton">Enter Portfolio</button>
+</div>
+
+<div class="battery" id="batteryLevel">Battery: 100%</div>
+
+<div id="content">
+  <center>
+    <img src="https://i.imgur.com/dYcYQ7E.png" alt="Profile Photo" class="profile-pic" />
+    <h1>JamesTech</h1>
+    <p>Cyber Developer | Hacker UI Designer | Fullstack Dev</p>
+  </center>
+
+  <div class="section skills">
+    <h2>Skills</h2>
+    <span>HTML</span>
+    <span>CSS</span>
+    <span>JavaScript</span>
+    <span>Python</span>
+    <span>Linux</span>
+    <span>Pterodactyl</span>
+    <span>Baileys API</span>
+    <span>Telegram Bots</span>
+  </div>
+
+  <div class="section projects">
+    <h2>Projects</h2>
+    <button onclick="window.open('https://jamestech.store/', '_blank')">JamesTech Project Store</button>
+    <button onclick="window.open('https://jamestech.netlify.app/', '_blank')">Encryption Tool</button>
+    <button onclick="window.open('https://wa.me/254785016388', '_blank')">WhatsApp Bot</button>
+    <button onclick="window.open('https://github.com/jamestech', '_blank')">GitHub Repo</button>
+  </div>
+
+  <div class="section">
+    <h2>Logs</h2>
+    <div id="logConsole"></div>
+  </div>
+</div>
+
+<script>
+  const enterBtn = document.getElementById("enterButton");
+  const loadingScreen = document.getElementById("loadingScreen");
+  const content = document.getElementById("content");
+  const logConsole = document.getElementById("logConsole");
+
+  enterBtn.addEventListener("click", () => {
+    loadingScreen.style.display = "none";
+    content.style.display = "block";
+    log("Portfolio Loaded.");
+    log("Welcome to JamesTech Personal Portfolio!");
+  });
+
+  function log(text) {
+    const time = new Date().toLocaleTimeString();
+    const logLine = `[${time}] > ${text}`;
+    const p = document.createElement("p");
+    p.textContent = logLine;
+    logConsole.appendChild(p);
+    logConsole.scrollTop = logConsole.scrollHeight;
+  }
+
+  function updateBatteryLevel() {
+    navigator.getBattery().then(function(battery) {
+      const level = Math.round(battery.level * 100);
+      document.getElementById('batteryLevel').textContent = `Battery: ${level}%`;
+    });
+  }
+
+  updateBatteryLevel();
+  setInterval(updateBatteryLevel, 10000);
+</script>
+
+</body>
+</html>
