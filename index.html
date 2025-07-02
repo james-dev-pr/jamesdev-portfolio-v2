@@ -183,16 +183,29 @@
 </head>
 <body>
 
-  <!-- Background Video -->
-  <video class="bg-video" autoplay muted loop>
+  <!-- Background Video with Sound -->
+  <video class="bg-video" id="bgvid" autoplay loop playsinline>
     <source src="https://files.catbox.moe/g552n6.mp4" type="video/mp4">
+    Your browser does not support the video tag.
   </video>
-  <div class="overlay"></div>
+  <script>
+    window.addEventListener('load', () => {
+      const video = document.getElementById('bgvid');
+      const playPromise = video.play();
 
-  <!-- Autoplay Audio -->
-  <audio autoplay loop hidden>
-    <source src="https://files.catbox.moe/pwjpmt.mp3" type="audio/mp3">
-  </audio>
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          // Plays with sound
+        }).catch(() => {
+          // Fallback: autoplay silently if blocked
+          video.muted = true;
+          video.play();
+        });
+      }
+    });
+  </script>
+
+  <div class="overlay"></div>
 
   <div class="container">
     <h1>JamesTech Projects</h1>
@@ -220,15 +233,15 @@
     </div>
 
     <div class="big-projects">
-      <h2>ABOUT ME</h2>
-      <p>about 1</p>
-      <p>teseka</p>
-      <p>jibambe</p>
-      <p>✅add more</p>
+      <h2>🚀 Big Projects</h2>
+      <p>🛡️ End-to-End Encryption Platform</p>
+      <p>🤖 AI Chatbot (WhatsApp + Telegram)</p>
+      <p>📊 Hosting Panel Dashboard</p>
+      <p>🌐 Global Referral & Stats System</p>
     </div>
 
     <div class="footer">
-      &copy; 2025 JamesTech — Enjoy 😉
+      &copy; 2025 JamesTech — Enjoy 😉 | Designed for elite developers.
     </div>
   </div>
 
