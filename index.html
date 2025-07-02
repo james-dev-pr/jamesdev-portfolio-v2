@@ -1,200 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JamesTech Portfolio</title>
+  <meta charset="UTF-8">
+  <title>JamesTech Projects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      background-color: #000;
-      color: #00ff99;
-      font-family: 'Courier New', Courier, monospace;
+    html, body {
       margin: 0;
-      overflow: hidden;
-    }
-
-    #loadingScreen {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
       background: #000;
-      color: #00ff99;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
+      color: #00ffcc;
+      overflow-x: hidden;
     }
 
-    #enterButton {
-      padding: 16px 32px;
-      border: 2px solid #00ff99;
-      background: transparent;
-      color: #00ff99;
-      font-size: 20px;
+    video.bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .container {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    h1 {
+      font-size: 6rem;
+      margin: 0 auto;
+      color: #00ffcc;
+      text-shadow:
+        0 0 10px #00ffff,
+        0 0 20px #00ffcc,
+        0 0 30px #00ccff,
+        0 0 40px #00b3ff;
+      animation: glow-pulse 3s ease-in-out infinite, flicker 4s infinite alternate;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    @keyframes glow-pulse {
+      0% { text-shadow: 0 0 10px #00ffff; }
+      50% { text-shadow: 0 0 30px #00ffcc, 0 0 60px #00b3ff; }
+      100% { text-shadow: 0 0 10px #00ffff; }
+    }
+
+    @keyframes flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.3;
+      }
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      margin: 50px 0;
+    }
+
+    .project-btn {
+      padding: 20px 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #fff;
+      border-radius: 12px;
+      position: relative;
+      background: linear-gradient(135deg, #00ffff, #0066ff);
+      border: 3px solid transparent;
+      background-clip: padding-box;
       cursor: pointer;
-      margin-top: 20px;
-      animation: pulse 2s infinite;
+      overflow: hidden;
+      z-index: 1;
+      transition: 0.4s;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
+    .project-btn::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff00cc, #00ccff, #00ff99, #ffcc00);
+      z-index: -1;
+      filter: blur(10px);
+      opacity: 0.8;
+      animation: glow 6s linear infinite;
     }
 
-    #content {
-      display: none;
-      padding: 20px;
-      animation: fadeIn 1s ease forwards;
+    @keyframes glow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .project-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #fff;
     }
 
-    .profile-pic {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid #00ff99;
+    .skills {
+      font-size: 1.4em;
+      margin: 30px 0;
+      text-shadow: 0 0 5px #0ff;
+    }
+
+    .whatsapp-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      color: #fff;
+      font-weight: bold;
+      text-decoration: none;
+      background: linear-gradient(45deg, #25D366, #128C7E);
+      box-shadow: 0 0 15px #25D366;
+      transition: 0.4s ease;
+    }
+
+    .wa-btn img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .wa-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #25D366;
+    }
+
+    .big-projects {
+      margin-top: 60px;
+    }
+
+    .big-projects h2 {
+      font-size: 2em;
+      color: #00ffaa;
+      text-shadow: 0 0 8px #00ffaa;
       margin-bottom: 20px;
     }
 
-    .section {
-      margin-bottom: 30px;
+    .big-projects p {
+      font-size: 1.1em;
+      margin: 10px 0;
+      color: #ccffff;
     }
 
-    .section h2 {
-      border-bottom: 1px solid #00ff99;
-      padding-bottom: 5px;
-      font-size: 22px;
-    }
-
-    .skills span {
-      display: inline-block;
-      padding: 6px 12px;
-      background: #002f2f;
-      margin: 5px;
-      border: 1px solid #00ff99;
-      border-radius: 5px;
-    }
-
-    .projects button {
-      background-color: transparent;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .projects button:hover {
-      background-color: #00ff99;
-      color: #000;
-    }
-
-    #logConsole {
-      background: #001f1f;
-      padding: 10px;
-      font-size: 14px;
-      max-height: 200px;
-      overflow-y: auto;
-      border-top: 2px solid #00ff99;
-      margin-top: 40px;
-    }
-
-    .battery {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      background: #002f2f;
-      padding: 5px 10px;
-      border: 1px solid #00ff99;
-    }
-
-    a {
-      color: #00ff99;
-      text-decoration: none;
+    .footer {
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.95em;
+      color: #ccc;
+      border-top: 1px solid #0ff;
     }
   </style>
 </head>
 <body>
 
-<div id="loadingScreen">
-  <h1>Initializing JamesTech Portfolio...</h1>
-  <button id="enterButton">Enter Portfolio</button>
-</div>
+  <!-- Background Video -->
+  <video class="bg-video" autoplay muted loop>
+    <source src="https://files.catbox.moe/g552n6.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
 
-<div class="battery" id="batteryLevel">Battery: 100%</div>
+  <!-- Autoplay Audio -->
+  <audio autoplay loop hidden>
+    <source src="https://files.catbox.moe/pwjpmt.mp3" type="audio/mp3">
+  </audio>
 
-<div id="content">
-  <center>
-    <img src="https://i.imgur.com/dYcYQ7E.png" alt="Profile Photo" class="profile-pic" />
-    <h1>JamesTech</h1>
-    <p>Cyber Developer | Hacker UI Designer | Fullstack Dev</p>
-  </center>
+  <div class="container">
+    <h1>JamesTech Projects</h1>
 
-  <div class="section skills">
-    <h2>Skills</h2>
-    <span>HTML</span>
-    <span>CSS</span>
-    <span>JavaScript</span>
-    <span>Python</span>
-    <span>Linux</span>
-    <span>Pterodactyl</span>
-    <span>Baileys API</span>
-    <span>Telegram Bots</span>
+    <div class="buttons">
+      <div class="project-btn">Project Alpha</div>
+      <div class="project-btn">Project Beta</div>
+      <div class="project-btn">Project Gamma</div>
+      <div class="project-btn">Project Zeta</div>
+      <div class="project-btn">Project Nova</div>
+      <div class="project-btn">Project Xtreme</div>
+      <div class="project-btn">Project Cyber</div>
+      <div class="project-btn">Project Quantum</div>
+    </div>
+
+    <div class="skills">💻 Skills Level: <strong>PRO</strong></div>
+
+    <div class="whatsapp-section">
+      <a href="https://wa.me/254700000000" class="wa-btn" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA"> Chat on WhatsApp
+      </a>
+      <a href="https://whatsapp.com/channel/yourchannel" class="wa-btn" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA"> Join WhatsApp Channel
+      </a>
+    </div>
+
+    <div class="big-projects">
+      <h2>ABOUT ME</h2>
+      <p>about 1</p>
+      <p>teseka</p>
+      <p>jibambe</p>
+      <p>✅add more</p>
+    </div>
+
+    <div class="footer">
+      &copy; 2025 JamesTech — Enjoy 😉
+    </div>
   </div>
-
-  <div class="section projects">
-    <h2>Projects</h2>
-    <button onclick="window.open('https://jamestech.store/', '_blank')">JamesTech Project Store</button>
-    <button onclick="window.open('https://jamestech.netlify.app/', '_blank')">Encryption Tool</button>
-    <button onclick="window.open('https://wa.me/254785016388', '_blank')">WhatsApp Bot</button>
-    <button onclick="window.open('https://github.com/jamestech', '_blank')">GitHub Repo</button>
-  </div>
-
-  <div class="section">
-    <h2>Logs</h2>
-    <div id="logConsole"></div>
-  </div>
-</div>
-
-<script>
-  const enterBtn = document.getElementById("enterButton");
-  const loadingScreen = document.getElementById("loadingScreen");
-  const content = document.getElementById("content");
-  const logConsole = document.getElementById("logConsole");
-
-  enterBtn.addEventListener("click", () => {
-    loadingScreen.style.display = "none";
-    content.style.display = "block";
-    log("Portfolio Loaded.");
-    log("Welcome to JamesTech Personal Portfolio!");
-  });
-
-  function log(text) {
-    const time = new Date().toLocaleTimeString();
-    const logLine = `[${time}] > ${text}`;
-    const p = document.createElement("p");
-    p.textContent = logLine;
-    logConsole.appendChild(p);
-    logConsole.scrollTop = logConsole.scrollHeight;
-  }
-
-  function updateBatteryLevel() {
-    navigator.getBattery().then(function(battery) {
-      const level = Math.round(battery.level * 100);
-      document.getElementById('batteryLevel').textContent = `Battery: ${level}%`;
-    });
-  }
-
-  updateBatteryLevel();
-  setInterval(updateBatteryLevel, 10000);
-</script>
 
 </body>
 </html>
